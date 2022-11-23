@@ -19,14 +19,19 @@ while true {
     switch input {
     case "1":
         addStudent()
+        
     case "2":
-        print("학생삭제 로직")
+        deleteStudent()
+        
     case "3":
         print("성적추가(변경) 로직")
+        
     case "4":
         print("성적삭제 로직")
+        
     case "5":
         print("평점보기 로직")
+        
     default:
         print("뭔가 입력이 잘못되었습니다. 1~5 사이의 숫자 혹은 X를 입력해주세요.")
     }
@@ -47,5 +52,23 @@ private func addStudent() {
     
     student.append(Student(name: inputStudent, subjectScore: nil))
     print("\(inputStudent) 학생을 추가했습니다.")
+    return
+}
+
+// MARK: 학생 삭제 로직
+private func deleteStudent() {
+    print("삭제할 학생의 이름을 입력해주세요")
+    let inputStudent = readLine()
+    guard let inputStudent = inputStudent else { return }
+    
+    if inputStudent == "" { print("입력이 잘못되었습니다. 다시 확인해주세요."); return }
+    
+    guard let studentIndex = student.firstIndex(where: { $0.name.lowercased() == inputStudent.lowercased() }) else {
+        print("\(inputStudent) 학생을 찾지 못했습니다.")
+        return
+    }
+    
+    student.remove(at: studentIndex)
+    print("\(inputStudent) 학생을 삭제하였습니다.")
     return
 }
