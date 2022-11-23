@@ -8,6 +8,6 @@
 import Foundation
 
 struct Student {
-    let subject: [String] = []
-    let score: [String] = []
+    let name: String
+    let subjectScore: [String: String]?
 }
