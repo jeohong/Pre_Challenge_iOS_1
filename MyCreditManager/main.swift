@@ -30,7 +30,7 @@ while true {
         deleteScore()
         
     case "5":
-        print("평점보기 로직")
+        viewRatings()
         
     default:
         print("뭔가 입력이 잘못되었습니다. 1~5 사이의 숫자 혹은 X를 입력해주세요.")
@@ -145,4 +145,56 @@ private func deleteScore() {
         print("\(studentName) 학생의 \(subjectName) 과목의 성적이 삭제되었습니다.")
         return
     }
+}
+
+// MARK: 평점보기 로직
+private func viewRatings() {
+    print("평점을 알고싶은 학생의 이름을 입력해주세요")
+    
+    let inputName = readLine()
+    guard let inputName = inputName else { return }
+    
+    // 예외처리 1. 비어있는 입력값, 2. 이름, 과목 2개의 입력이 들어오지 않음
+    if inputName == "" {
+        print("입력이 잘못되었습니다. 다시 확인해주세요.")
+        return
+    }
+    
+    guard let studentIndex = student.firstIndex(where: { $0.name.lowercased() == inputName.lowercased() }) else {
+        print("\(inputName) 학생을 찾지 못했습니다.")
+        return
+    }
+    
+    var sumScore: Double = 0.0
+    let subjectCount = student[studentIndex].subjectScore.count
+    
+    for (subject, score) in student[studentIndex].subjectScore {
+        print("\(subject): \(score)")
+        
+        guard let grade = Grade(rawValue: score) else { return }
+        sumScore += grade.score
+    }
+    
+    if sumScore == 0 { print("평점을 낼 점수가 없습니다."); return }
+    
+    let averageScore = sumScore / Double(subjectCount)
+    print("평점 :", terminator: " ")
+    
+    // 소수점 아래자리 판단하여 각각 print
+    // 정수로 떨어질 경우
+    if averageScore - Double(Int(averageScore)) == 0 {
+        print(Int(averageScore))
+    } else if String(averageScore).count > 4 {
+        // 소수점 아래 3자리 이상일 경우
+        let numberFomatter = NumberFormatter()
+        numberFomatter.roundingMode = .floor
+        numberFomatter.maximumSignificantDigits = 3
+
+        guard let floorScore = numberFomatter.string(for: averageScore) else { return }
+        print(floorScore)
+    } else {
+        // 소수점 아래 1자리일 경우
+        print(averageScore)
+    }
+    return
 }
