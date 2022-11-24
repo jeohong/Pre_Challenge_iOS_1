@@ -81,13 +81,11 @@ private func addScore() {
     
     let inputSubjectScore = readLine()?.components(separatedBy: " ")
     guard let inputSubjectScore = inputSubjectScore else { return }
-    
-    let scoreList = ["A+", "A", "B+", "B", "C+", "C", "D+", "D", "F"]
-    
+        
     // 예외처리 1. 비어있는 입력값, 2. 이름, 과목, 성적 세개의 입력이 들어오지 않음, 3. 성적이 A+ ~ F 사이에 없음
     if inputSubjectScore == [] ||
         inputSubjectScore.count != 3 ||
-        !scoreList.contains(where: { $0 == inputSubjectScore[2] }) {
+        Grade(rawValue: inputSubjectScore[2]) == nil {
         print("입력이 잘못되었습니다. 다시 확인해주세요.")
         return
     }
@@ -141,7 +139,7 @@ private func deleteScore() {
         return
     } else {
         student[studentIndex].subjectScore.removeValue(forKey: subjectName)
-                
+        
         print("\(studentName) 학생의 \(subjectName) 과목의 성적이 삭제되었습니다.")
         return
     }
@@ -189,7 +187,7 @@ private func viewRatings() {
         let numberFomatter = NumberFormatter()
         numberFomatter.roundingMode = .floor
         numberFomatter.maximumSignificantDigits = 3
-
+        
         guard let floorScore = numberFomatter.string(for: averageScore) else { return }
         print(floorScore)
     } else {
