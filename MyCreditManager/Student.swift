@@ -9,5 +9,5 @@ import Foundation
 
 struct Student {
     let name: String
-    var subjectScore: [String: String]?
+    var subjectScore: [String: String]
 }
