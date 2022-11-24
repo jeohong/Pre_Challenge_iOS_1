@@ -27,7 +27,7 @@ while true {
         addScore()
         
     case "4":
-        print("성적삭제 로직")
+        deleteScore()
         
     case "5":
         print("평점보기 로직")
@@ -101,7 +101,7 @@ private func addScore() {
         print("\(studentName) 학생을 찾지 못했습니다.")
         return
     }
-            
+    
     if student[studentIndex].subjectScore.keys.contains(where: { $0 == subjectName}) {
         student[studentIndex].subjectScore.updateValue(score, forKey: subjectName)
     } else {
@@ -110,4 +110,36 @@ private func addScore() {
     
     print("\(studentName) 학생의 \(subjectName) 과목이 \(score)로 추가(변경)되었습니다.")
     return
+}
+
+// MARK: 성적삭제 로직
+private func deleteScore() {
+    let inputSubject = readLine()?.components(separatedBy: " ")
+    guard let inputSubject = inputSubject else { return }
+    
+    // 예외처리 1. 비어있는 입력값, 2. 이름, 과목 2개의 입력이 들어오지 않음
+    if inputSubject == [] ||
+        inputSubject.count != 2 {
+        print("입력이 잘못되었습니다. 다시 확인해주세요.")
+        return
+    }
+    
+    // 각 인덱스를 상수에 할당
+    let studentName = inputSubject[0]
+    let subjectName = inputSubject[1]
+    
+    guard let studentIndex = student.firstIndex(where: { $0.name.lowercased() == studentName.lowercased() }) else {
+        print("\(studentName) 학생을 찾지 못했습니다.")
+        return
+    }
+    
+    if !student[studentIndex].subjectScore.keys.contains(where: { $0 == subjectName}) {
+        print("\(studentName) 학생은 \(subjectName)과목을 수강하지 않았습니다.")
+        return
+    } else {
+        student[studentIndex].subjectScore.removeValue(forKey: subjectName)
+                
+        print("\(studentName) 학생의 \(subjectName) 과목의 성적이 삭제되었습니다.")
+        return
+    }
 }
