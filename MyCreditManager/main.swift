@@ -114,6 +114,9 @@ private func addScore() {
 
 // MARK: 성적삭제 로직
 private func deleteScore() {
+    print("성적을 삭제할 학생의 이름. 과목 이름을 띄어쓰기로 구분하여 차례로 작성해주세요.")
+    print("입력예) Mickey Swift")
+    
     let inputSubject = readLine()?.components(separatedBy: " ")
     guard let inputSubject = inputSubject else { return }
     
