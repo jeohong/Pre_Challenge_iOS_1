@@ -152,7 +152,6 @@ private func viewRatings() {
     let inputName = readLine()
     guard let inputName = inputName else { return }
     
-    // 예외처리 1. 비어있는 입력값, 2. 이름, 과목 2개의 입력이 들어오지 않음
     if inputName == "" {
         print("입력이 잘못되었습니다. 다시 확인해주세요.")
         return
